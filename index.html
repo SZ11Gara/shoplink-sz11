@@ -495,7 +495,11 @@ async function signIn() {
   document.getElementById("accountStatus").textContent =
     "مسجل الدخول: " + data.user.email;
 
+  document.getElementById("authModal").classList.remove("open");
+
   alert("تم تسجيل الدخول بنجاح!");
+
+  await loadProfile();
 }
 
 async function signOut() {
