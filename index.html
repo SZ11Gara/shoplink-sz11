@@ -377,5 +377,24 @@ async function loadSupabaseProducts() {
 
 loadSupabaseProducts();
 </script>
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <h2>حساب البائع</h2>
+
+    <input id="authEmail" type="email"
+      placeholder="البريد الإلكتروني">
+
+    <input id="authPassword" type="password"
+      placeholder="كلمة المرور">
+
+    <button onclick="signUp()">إنشاء حساب</button>
+    <button onclick="signIn()">تسجيل الدخول</button>
+    <button onclick="signOut()">تسجيل الخروج</button>
+
+    <button onclick="document.getElementById('authModal').classList.remove('open')">
+      إغلاق
+    </button>
+  </div>
+</div>
 </body>
 </html>
