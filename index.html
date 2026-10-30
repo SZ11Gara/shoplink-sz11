@@ -376,6 +376,50 @@ async function loadSupabaseProducts() {
 }
 
 loadSupabaseProducts();
+async function signUp() {
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value;
+
+  const { error } = await supabaseClient.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("خطأ: " + error.message);
+    return;
+  }
+
+  alert("تم إنشاء الحساب! تحقق من بريدك الإلكتروني.");
+}
+
+async function signIn() {
+  const email = document.getElementById("authEmail").value.trim();
+  const password = document.getElementById("authPassword").value;
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("خطأ: " + error.message);
+    return;
+  }
+
+  alert("تم تسجيل الدخول بنجاح!");
+}
+
+async function signOut() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    alert("خطأ: " + error.message);
+    return;
+  }
+
+  alert("تم تسجيل الخروج.");
+}
 </script>
 <div id="authModal" class="modal">
   <div class="modal-content">
