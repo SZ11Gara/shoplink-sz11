@@ -303,7 +303,7 @@ function closeModal(){
  document.getElementById("modal").classList.remove("open");
 }
 
-document.getElementById("listingForm").addEventListener("submit",e=>{
+document.getElementById("listingForm").addEventListener("submit", async e=>{
  e.preventDefault();
  const p={
  name:document.getElementById("name").value.trim(),
