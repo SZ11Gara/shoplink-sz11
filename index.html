@@ -534,7 +534,64 @@ async function restoreAccountStatus() {
     status.textContent = "⚠️ بريدك الإلكتروني لم يتم تأكيده بعد";
   }
 }
+// تحميل معلومات المستخدم
+async function loadProfile() {
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
 
+  if (userError || !user) {
+    alert("يجب تسجيل الدخول أولاً");
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (error) {
+    alert("تعذر تحميل المعلومات: " + error.message);
+    return;
+  }
+
+  document.getElementById("profileEmail").textContent = user.email;
+  document.getElementById("profileName").value = data?.full_name || "";
+  document.getElementById("profilePhone").value = data?.phone || "";
+  document.getElementById("profileCity").value = data?.city || "";
+
+  document.getElementById("profileModal").classList.add("open");
+}
+
+// حفظ معلومات المستخدم
+async function saveProfile() {
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !user) {
+    alert("يجب تسجيل الدخول أولاً");
+    return;
+  }
+
+  const profile = {
+    id: user.id,
+    full_name: document.getElementById("profileName").value.trim(),
+    phone: document.getElementById("profilePhone").value.trim(),
+    city: document.getElementById("profileCity").value.trim(),
+    updated_at: new Date().toISOString()
+  };
+
+  const { error } = await supabaseClient
+    .from("profiles")
+    .upsert(profile, { onConflict: "id" });
+
+  if (error) {
+    alert("حدث خطأ أثناء الحفظ: " + error.message);
+    return;
+  }
+
+  alert("تم حفظ معلوماتك بنجاح!");
+}
 restoreAccountStatus();
 </script>
 <div id="authModal" class="modal">
