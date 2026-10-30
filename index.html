@@ -558,5 +558,43 @@ restoreAccountStatus();
     </button>
   </div>
 </div>
+<!-- الصفحة الشخصية -->
+<div id="profileModal" class="modal">
+  <div class="modal-content">
+    <h2>ملفي الشخصي</h2>
+
+    <p id="profileEmail">حسابي</p>
+
+    <input
+      id="profileName"
+      type="text"
+      placeholder="الاسم الكامل"
+    >
+
+    <input
+      id="profilePhone"
+      type="tel"
+      placeholder="رقم الهاتف"
+    >
+
+    <input
+      id="profileCity"
+      type="text"
+      placeholder="المدينة"
+    >
+
+    <button onclick="saveProfile()">
+      حفظ المعلومات
+    </button>
+
+    <button onclick="loadProfile()">
+      تحديث المعلومات
+    </button>
+
+    <button onclick="document.getElementById('profileModal').classList.remove('open')">
+      إغلاق
+    </button>
+  </div>
+</div>
 </body>
 </html>
