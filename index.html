@@ -510,21 +510,28 @@ async function signOut() {
     "أنت غير مسجل الدخول";
 
   alert("تم تسجيل الخروج.");
-}
 async function restoreAccountStatus() {
   const { data, error } = await supabaseClient.auth.getSession();
 
+  const status = document.getElementById("accountStatus");
+
   if (error) {
+    status.textContent = "تعذر التحقق من حالة الحساب";
     console.error(error);
     return;
   }
 
-  const status = document.getElementById("accountStatus");
-
-  if (data.session) {
-    status.textContent = "مسجل الدخول: " + data.session.user.email;
-  } else {
+  if (!data.session) {
     status.textContent = "أنت غير مسجل الدخول";
+    return;
+  }
+
+  const user = data.session.user;
+
+  if (user.email_confirmed_at) {
+    status.textContent = "✅ تم تأكيد البريد! مرحباً بك: " + user.email;
+  } else {
+    status.textContent = "⚠️ بريدك الإلكتروني لم يتم تأكيده بعد";
   }
 }
 
