@@ -1,1 +1,332 @@
-ت
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>ShopLink SZ11 | سوقك المغربي</title>
+<style>
+:root {
+  --bg:#f5f7fb;
+  --dark:#101827;
+  --green:#10b981;
+  --muted:#718096;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Tahoma,sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+}
+header{
+  background:var(--dark);
+  color:white;
+  padding:18px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+.logo{font-size:24px;font-weight:900}
+.logo span{color:var(--green)}
+header small{color:#b9c3d1}
+button{font-family:inherit;cursor:pointer}
+.primary{
+  background:var(--green);
+  color:#06251b;
+  border:0;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:bold;
+}
+.hero{
+  padding:55px 6%;
+  background:linear-gradient(130deg,#101827,#183b40);
+  color:white;
+}
+.hero h1{font-size:clamp(28px,6vw,46px);margin:0 0 15px}
+.hero p{color:#c8d5dc;line-height:1.9}
+.search{
+  display:flex;
+  gap:8px;
+  max-width:600px;
+  margin-top:25px;
+}
+.search input{
+  flex:1;min-width:0;padding:15px;
+  border:0;border-radius:10px;font-size:15px;
+}
+main{padding:30px 6%}
+.section-title{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;flex-wrap:wrap;
+}
+.categories{
+  display:flex;gap:9px;overflow-x:auto;
+  padding:15px 0;
+}
+.category{
+  border:1px solid #dce3ec;background:white;
+  padding:11px 17px;border-radius:25px;
+  white-space:nowrap;color:var(--dark);
+}
+.category.active{
+  background:var(--dark);color:white;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:18px;margin-top:20px;
+}
+.card{
+  background:white;border-radius:15px;
+  overflow:hidden;border:1px solid #e7ebf1;
+  box-shadow:0 5px 20px #15223808;
+}
+.card img{
+  width:100%;height:165px;object-fit:cover;
+  background:#e9eef3;
+}
+.card-content{padding:15px}
+.card h3{margin:5px 0 10px}
+.price{color:#059669;font-weight:bold;font-size:19px}
+.meta{font-size:12px;color:var(--muted);margin:10px 0}
+.details{
+  background:var(--dark);color:white;border:0;
+  padding:10px;border-radius:8px;width:100%;
+}
+footer{
+  background:var(--dark);color:#cbd5e1;
+  text-align:center;padding:25px;margin-top:40px;
+  line-height:1.8;
+}
+.modal{
+  display:none;position:fixed;inset:0;
+  background:#0009;z-index:10;
+  align-items:center;justify-content:center;padding:15px;
+}
+.modal.open{display:flex}
+.modal-box{
+  background:white;border-radius:16px;
+  padding:22px;width:100%;max-width:430px;
+  max-height:90vh;overflow:auto;
+}
+.modal-box input,.modal-box select,
+.modal-box textarea{
+  width:100%;padding:12px;margin:7px 0 13px;
+  border:1px solid #d8e0e9;border-radius:8px;
+  font:inherit;
+}
+.close{float:left;border:0;background:none;font-size:23px}
+.empty{color:var(--muted);text-align:center;padding:30px}
+@media(max-width:500px){
+ header{padding:14px 4%}
+ .logo{font-size:20px}
+ header small{display:none}
+ .hero{padding:40px 5%}
+ main{padding:25px 5%}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .card img{height:125px}
+ .card-content{padding:10px}
+ .card h3{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">Shop<span>Link</span></div>
+    <small>BY SZ11 · السوق المغربي</small>
+  </div>
+  <button class="primary" onclick="openModal()">+ أضف إعلانك</button>
+</header>
+
+<section class="hero">
+  <h1>سوقك المغربي في مكان واحد.</h1>
+  <p>اكتشف المنتجات والخدمات، اعثر على ما تحتاجه، وانشر إعلانك وابدأ البيع.</p>
+  <div class="search">
+    <input id="search" placeholder="ماذا تبحث عنه؟" oninput="render()">
+    <button class="primary" onclick="render()">بحث</button>
+  </div>
+</section>
+
+<main>
+  <div class="section-title">
+    <h2>اكتشف المنتجات</h2>
+    <span id="count" class="meta"></span>
+  </div>
+
+  <div class="categories" id="categories"></div>
+  <div class="grid" id="products"></div>
+</main>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2>أضف إعلانك</h2>
+    <form id="listingForm">
+      <label>اسم المنتج أو الخدمة</label>
+      <input id="name" required maxlength="60" placeholder="مثلاً: ساعة أنيقة">
+
+      <label>السعر بالدرهم</label>
+      <input id="price" type="number" min="0" required placeholder="100">
+
+      <label>التصنيف</label>
+      <select id="category">
+        <option>الكل</option>
+        <option>الملابس</option>
+        <option>الإلكترونيات</option>
+        <option>العطور</option>
+        <option>الصناعة التقليدية</option>
+        <option>المأكولات</option>
+        <option>الخدمات</option>
+      </select>
+
+      <label>رابط صورة المنتج (اختياري)</label>
+      <input id="image" type="url" placeholder="https://...">
+
+      <label>وصف الإعلان</label>
+      <textarea id="description" rows="3" required maxlength="300" placeholder="اكتب تفاصيل المنتج"></textarea>
+
+      <button class="primary" type="submit" style="width:100%">
+        نشر الإعلان التجريبي
+      </button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <strong>ShopLink SZ11</strong>
+  <div>سوقك، فرصتك، عالمك.</div>
+  <small>منصة تجريبية قيد التطوير © 2026</small>
+</footer>
+
+<script>
+const defaults = [
+ {name:"حذاء رياضي",price:180,category:"الملابس",
+ image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
+ description:"حذاء رياضي بتصميم عصري."},
+ {name:"ساعة أنيقة",price:120,category:"الإلكترونيات",
+ image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
+ description:"ساعة بتصميم جميل."},
+ {name:"عطر فاخر",price:150,category:"العطور",
+ image:"https://images.unsplash.com/photo-1541643600914-78b084683601?w=600",
+ description:"عطر أنيق للاستخدام اليومي."},
+ {name:"حقيبة عصرية",price:200,category:"الملابس",
+ image:"https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600",
+ description:"حقيبة بتصميم عملي."},
+ {name:"منتج حرفي",price:90,category:"الصناعة التقليدية",
+ image:"https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?w=600",
+ description:"قطعة يدوية جميلة."},
+ {name:"خدمة التصميم",price:100,category:"الخدمات",
+ image:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600",
+ description:"خدمة تصميم إبداعية."}
+];
+
+let selected = "الكل";
+let products = [...defaults];
+
+try {
+ const saved = JSON.parse(localStorage.getItem("shoplink-listings") || "[]");
+ if(Array.isArray(saved)) products = [...saved,...defaults];
+} catch(e) {}
+
+const categories = ["الكل","الملابس","الإلكترونيات","العطور",
+"الصناعة التقليدية","المأكولات","الخدمات"];
+
+function renderCategories(){
+ document.getElementById("categories").innerHTML =
+ categories.map(c=>`
+ <button class="category ${selected===c?'active':''}"
+ onclick="selectCategory('${c}')">${c}</button>
+ `).join("");
+}
+
+function selectCategory(c){
+ selected=c;
+ render();
+}
+
+function render(){
+ renderCategories();
+ const q=document.getElementById("search").value.trim().toLowerCase();
+ const filtered=products.filter(p=>
+ (selected==="الكل" || p.category===selected) &&
+ (p.name+" "+p.category+" "+p.description).toLowerCase().includes(q)
+ );
+
+ document.getElementById("count").textContent=
+ filtered.length+" إعلان";
+
+ document.getElementById("products").innerHTML=
+ filtered.length ? filtered.map((p,i)=>`
+ <article class="card">
+  <img src="${safe(p.image)}" alt="${safe(p.name)}"
+   onerror="this.src='https://placehold.co/500x350?text=ShopLink'">
+  <div class="card-content">
+   <h3>${safe(p.name)}</h3>
+   <div class="price">${Number(p.price).toLocaleString("ar-MA")} درهم</div>
+   <div class="meta">${safe(p.category)}</div>
+   <button class="details" onclick="showDetails(${products.indexOf(p)})">
+    التفاصيل
+   </button>
+  </div>
+ </article>`).join("") :
+ '<div class="empty">لا توجد إعلانات مطابقة لبحثك.</div>';
+}
+
+function safe(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;',
+ '"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
+function showDetails(i){
+ const p=products[i];
+ alert(p.name+"\nالسعر: "+p.price+" درهم\nالتصنيف: "+p.category+
+ "\n\n"+p.description+
+ "\n\nهذا إعلان تجريبي. التواصل والشراء غير مفعّلين بعد.");
+}
+
+function openModal(){
+ document.getElementById("modal").classList.add("open");
+}
+function closeModal(){
+ document.getElementById("modal").classList.remove("open");
+}
+
+document.getElementById("listingForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const p={
+ name:document.getElementById("name").value.trim(),
+ price:Number(document.getElementById("price").value),
+ category:document.getElementById("category").value,
+ image:document.getElementById("image").value.trim() ||
+ "https://placehold.co/500x350?text=ShopLink",
+ description:document.getElementById("description").value.trim()
+ };
+ products.unshift(p);
+ try{
+ const custom=products.filter(x=>!defaults.includes(x));
+ localStorage.setItem("shoplink-listings",JSON.stringify(custom));
+ }catch(err){}
+ e.target.reset();
+ closeModal();
+ selected="الكل";
+ document.getElementById("search").value="";
+ render();
+ alert("تمت إضافة إعلانك إلى هذه النسخة التجريبية على هاتفك.");
+});
+
+render();
+</script>
+</body>
+</html>
