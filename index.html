@@ -474,7 +474,7 @@ async function signIn() {
   const email = document.getElementById("authEmail").value.trim();
   const password = document.getElementById("authPassword").value;
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password
   });
@@ -483,6 +483,9 @@ async function signIn() {
     alert("خطأ: " + error.message);
     return;
   }
+
+  document.getElementById("accountStatus").textContent =
+    "مسجل الدخول: " + data.user.email;
 
   alert("تم تسجيل الدخول بنجاح!");
 }
