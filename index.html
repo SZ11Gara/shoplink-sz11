@@ -503,7 +503,24 @@ async function signOut() {
 
   alert("تم تسجيل الخروج.");
 }
+async function restoreAccountStatus() {
+  const { data, error } = await supabaseClient.auth.getSession();
 
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const status = document.getElementById("accountStatus");
+
+  if (data.session) {
+    status.textContent = "مسجل الدخول: " + data.session.user.email;
+  } else {
+    status.textContent = "أنت غير مسجل الدخول";
+  }
+}
+
+restoreAccountStatus();
 </script>
 <div id="authModal" class="modal">
   <div class="modal-content">
