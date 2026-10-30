@@ -328,5 +328,18 @@ document.getElementById("listingForm").addEventListener("submit",e=>{
 
 render();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "ضع_API_URL_هنا";
+const SUPABASE_KEY = "ضع_PUBLISHABLE_KEY_هنا";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+console.log("ShopLink SZ11: Supabase initialized");
+</script>
 </body>
 </html>
