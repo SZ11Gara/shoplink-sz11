@@ -457,9 +457,17 @@ async function signUp() {
   const email = document.getElementById("authEmail").value.trim();
   const password = document.getElementById("authPassword").value;
 
+  if (!email || !password) {
+    alert("أدخل البريد الإلكتروني وكلمة المرور");
+    return;
+  }
+
   const { error } = await supabaseClient.auth.signUp({
     email,
-    password
+    password,
+    options: {
+      emailRedirectTo: "https://sz11gara.github.io/shoplink-sz11/"
+    }
   });
 
   if (error) {
@@ -467,7 +475,7 @@ async function signUp() {
     return;
   }
 
-  alert("تم إنشاء الحساب! تحقق من بريدك الإلكتروني.");
+  alert("تم إنشاء الحساب! افتح بريدك واضغط على رابط التأكيد.");
 }
 
 async function signIn() {
