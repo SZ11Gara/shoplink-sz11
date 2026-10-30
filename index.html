@@ -540,9 +540,9 @@ async function loadProfile() {
     await supabaseClient.auth.getUser();
 
   if (userError || !user) {
-    alert("يجب تسجيل الدخول أولاً");
-    return;
-  }
+  document.getElementById("authModal").classList.add("open");
+  return;
+}
 
   const { data, error } = await supabaseClient
     .from("profiles")
