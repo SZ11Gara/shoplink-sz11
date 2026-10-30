@@ -354,23 +354,28 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 
-async function testSupabase() {
+async function loadSupabaseProducts() {
   const { data, error } = await supabaseClient
     .from("products")
     .select("*")
-    .limit(5);
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Supabase Error:", error.message);
-    alert("فشل الاتصال: " + error.message);
+    console.error(error);
+    alert("تعذر تحميل المنتجات: " + error.message);
     return;
   }
 
-  console.log("ShopLink connected!", data);
-  alert("نجح الاتصال بقاعدة البيانات!");
+  const onlineProducts = data.map(p => ({
+    ...p,
+    image: p.image_url || "https://placehold.co/500x350?text=ShopLink"
+  }));
+
+  products = [...onlineProducts, ...defaults];
+  render();
 }
 
-testSupabase();
+loadSupabaseProducts();
 </script>
 </body>
 </html>
