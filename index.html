@@ -495,7 +495,11 @@ async function signOut() {
     return;
   }
 
+  document.getElementById("accountStatus").textContent =
+    "أنت غير مسجل الدخول";
+
   alert("تم تسجيل الخروج.");
+}
 }
 </script>
 <div id="authModal" class="modal">
