@@ -339,7 +339,23 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 
-console.log("ShopLink SZ11: Supabase initialized");
+async function testSupabase() {
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .limit(5);
+
+  if (error) {
+    console.error("Supabase Error:", error.message);
+    alert("فشل الاتصال: " + error.message);
+    return;
+  }
+
+  console.log("ShopLink connected!", data);
+  alert("نجح الاتصال بقاعدة البيانات!");
+}
+
+testSupabase();
 </script>
 </body>
 </html>
