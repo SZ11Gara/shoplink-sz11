@@ -46,9 +46,20 @@ button{font-family:inherit;cursor:pointer}
   font-weight:bold;
 }
 .hero{
-  padding:55px 6%;
-  background:linear-gradient(130deg,#101827,#183b40);
+  padding:65px 6%;
+  background:
+    linear-gradient(130deg,rgba(18,53,43,.96),rgba(8,122,69,.92)),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(255,255,255,.04) 20px,
+      rgba(255,255,255,.04) 22px
+    );
   color:white;
+  border-bottom:4px solid #d5a642;
+  position:relative;
+  overflow:hidden;
 }
 .hero h1{font-size:clamp(28px,6vw,46px);margin:0 0 15px}
 .hero p{color:#c8d5dc;line-height:1.9}
