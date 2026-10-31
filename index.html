@@ -471,6 +471,8 @@ function openModal(){
 }
 function closeModal(){
  document.getElementById("modal").classList.remove("open");
+document.getElementById("productForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
 }
 const imageFile = document.getElementById("image").files[0];
 
