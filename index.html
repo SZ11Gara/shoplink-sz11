@@ -472,17 +472,15 @@ function openModal(){
 function closeModal(){
  document.getElementById("modal").classList.remove("open");
 }
+const imageFile = document.getElementById("image").files[0];
 
-document.getElementById("listingForm").addEventListener("submit", async e=>{
- e.preventDefault();
- const p={
- name:document.getElementById("name").value.trim(),
- price:Number(document.getElementById("price").value),
- category:document.getElementById("category").value,
- image:document.getElementById("image").value.trim() ||
- "https://placehold.co/500x350?text=ShopLink",
- description:document.getElementById("description").value.trim()
- };
+const p = {
+  name: document.getElementById("name").value.trim(),
+  price: Number(document.getElementById("price").value),
+  category: document.getElementById("category").value,
+  image: "https://placehold.co/500x350?text=ShopLink",
+  description: document.getElementById("description").value.trim()
+};
  const { data: { user }, error: userError } =
   await supabaseClient.auth.getUser();
 
