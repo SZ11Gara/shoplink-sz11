@@ -407,7 +407,6 @@ const { data, error } = await supabaseClient
     category: p.category,
     image_url: p.image,
     description: p.description,
-console.log("User ID:", user.id);
     seller_id: user.id
   }])
   .select();
