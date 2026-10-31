@@ -210,6 +210,65 @@ footer{
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* Moroccan Identity - ShopLink SZ11 */
+
+:root {
+  --bg: #f8faf7;
+  --dark: #12352b;
+  --green: #087a45;
+  --muted: #718078;
+  --white: #fff;
+  --gold: #d5a642;
+}
+
+header {
+  background: #12352b;
+  border-bottom: 3px solid var(--gold);
+}
+
+.logo span {
+  color: var(--gold);
+}
+
+.primary {
+  background: #087a45;
+  color: white;
+  border: 1px solid var(--gold);
+}
+
+.primary:hover {
+  background: #065f36;
+}
+
+.hero {
+  background:
+    linear-gradient(130deg, #12352b, #087a45);
+  border-bottom: 4px solid var(--gold);
+}
+
+.category.active {
+  background: #087a45;
+  border: 1px solid var(--gold);
+}
+
+.price {
+  color: #087a45;
+}
+
+.card {
+  border-radius: 18px;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px #12352b18;
+}
+
+footer {
+  background: #12352b;
+  border-top: 3px solid var(--gold);
+}
 </style>
 </head>
 <body>
