@@ -676,33 +676,16 @@ restoreAccountStatus();
 <!-- الصفحة الشخصية -->
 <div id="profileModal" class="modal">
   <div class="modal-content">
+
     <h2>ملفي الشخصي</h2>
-<h2>ملفي الشخصي</h2>
 
-<button onclick="loadMyProducts()">
-  📦 إعلاناتي
-</button>
-
-<div id="myProducts"></div>
     <p id="profileEmail">حسابي</p>
 
-    <input
-      id="profileName"
-      type="text"
-      placeholder="الاسم الكامل"
-    >
+    <input id="profileName" type="text" placeholder="الاسم الكامل">
 
-    <input
-      id="profilePhone"
-      type="tel"
-      placeholder="رقم الهاتف"
-    >
+    <input id="profilePhone" type="tel" placeholder="رقم الهاتف">
 
-    <input
-      id="profileCity"
-      type="text"
-      placeholder="المدينة"
-    >
+    <input id="profileCity" type="text" placeholder="المدينة">
 
     <button onclick="saveProfile()">
       حفظ المعلومات
@@ -712,9 +695,20 @@ restoreAccountStatus();
       تحديث المعلومات
     </button>
 
+    <hr>
+
+    <h3>📦 إعلاناتي</h3>
+
+    <button onclick="loadMyProducts()">
+      عرض إعلاناتي
+    </button>
+
+    <div id="myProducts"></div>
+
     <button onclick="document.getElementById('profileModal').classList.remove('open')">
       إغلاق
     </button>
+
   </div>
 </div>
 </body>
