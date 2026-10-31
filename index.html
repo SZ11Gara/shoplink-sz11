@@ -280,6 +280,28 @@ footer {
   background: #12352b;
   border-top: 3px solid var(--gold);
 }
+.hero::after {
+  content: "✧ ❖ ✧ ❖ ✧";
+  position: absolute;
+  left: 15px;
+  bottom: 10px;
+  color: #e0b84f;
+  font-size: 35px;
+  letter-spacing: 12px;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.hero::before {
+  content: "❖";
+  position: absolute;
+  right: 25px;
+  top: 10px;
+  color: #e0b84f;
+  font-size: 90px;
+  opacity: 0.18;
+  pointer-events: none;
+}
 </style>
 </head>
 <body>
