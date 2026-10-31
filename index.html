@@ -488,7 +488,29 @@ if (userError || !user) {
   alert("يجب تسجيل الدخول قبل نشر الإعلان");
   return;
 }
+// رفع صورة المنتج إلى Supabase Storage
+if (imageFile) {
+  const filePath =
+    user.id + "/" + Date.now() + "-" +
+    imageFile.name.replace(/[^a-zA-Z0-9._-]/g, "_");
 
+  const { error: uploadError } =
+    await supabaseClient.storage
+      .from("product-images")
+      .upload(filePath, imageFile);
+
+  if (uploadError) {
+    alert("تعذر رفع الصورة: " + uploadError.message);
+    return;
+  }
+
+  const { data: publicData } =
+    supabaseClient.storage
+      .from("product-images")
+      .getPublicUrl(filePath);
+
+  p.image = publicData.publicUrl;
+}
 const { data, error } = await supabaseClient
   .from("products")
   .insert([{
