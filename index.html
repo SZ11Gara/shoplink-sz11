@@ -391,14 +391,23 @@ document.getElementById("listingForm").addEventListener("submit", async e=>{
  "https://placehold.co/500x350?text=ShopLink",
  description:document.getElementById("description").value.trim()
  };
- const { data, error } = await supabaseClient
+ const { data: { user }, error: userError } =
+  await supabaseClient.auth.getUser();
+
+if (userError || !user) {
+  alert("يجب تسجيل الدخول قبل نشر الإعلان");
+  return;
+}
+
+const { data, error } = await supabaseClient
   .from("products")
   .insert([{
     name: p.name,
     price: p.price,
     category: p.category,
     image_url: p.image,
-    description: p.description
+    description: p.description,
+    seller_id: user.id
   }])
   .select();
 
