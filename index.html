@@ -578,7 +578,49 @@ async function loadProfile() {
 
   document.getElementById("profileModal").classList.add("open");
 }
+async function loadMyProducts() {
+  const { data: { user }, error: userError } =
+    await supabaseClient.auth.getUser();
 
+  if (userError || !user) {
+    alert("يجب تسجيل الدخول أولاً");
+    return;
+  }
+
+  const container = document.getElementById("myProducts");
+  container.innerHTML = "جارٍ تحميل إعلاناتك...";
+
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("seller_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    container.textContent = "تعذر تحميل الإعلانات: " + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.textContent = "ليس لديك إعلانات بعد.";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(product => {
+    const item = document.createElement("div");
+    item.style.padding = "12px";
+    item.style.margin = "10px 0";
+    item.style.border = "1px solid #ddd";
+    item.style.borderRadius = "10px";
+
+    item.textContent =
+      product.name + " — " + product.price + " درهم";
+
+    container.appendChild(item);
+  });
+}
 // حفظ معلومات المستخدم
 async function saveProfile() {
   const { data: { user }, error: userError } =
